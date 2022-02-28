@@ -1,0 +1,81 @@
+#+Date: 2022Feb28
+#+Author: Que
+#+Title: First E-Lisp Project
+
+* Project notes 
+First attempt at any sort of programming. Rather that simply following a step by step tutorial. I found one for Common Lisp and translated it into Emacs-Lisp.
+
+* Completed Source Code 
+#+begin_src emacs-lisp
+(defun toss-coin ()
+"psuedo ranomly selects heads or tails"
+  (let ((number (cl-random 2)))
+    (if (= number 0)
+	(message "heads")
+       (message "tails"))))
+
+(defun prompt ()
+  "promt to accept user guess"
+  (interactive)
+  (message "Please enter heads or tails. ")
+  (read-string "Your guess: "))
+
+
+(defun comparison ()
+  "accepts user guess and compares it to coin-toss"
+  (let ((guess (downcase (prompt))))
+    (if (or (equal guess "heads")
+	      (equal guess "tails"))
+	guess
+      (comparison))))
+
+
+(defun game ()
+  "Returns prompt letting user know if they guessed correctly"
+  (if (equal (comparison)
+	       (toss-coin))
+      (message "You Win!")
+      (message "You Lose!")))
+
+(game)
+
+;;; Induvidual Function calls for debugging.
+(comparison)
+(prompt)
+(toss-coin)
+
+#+end_src
+
+* Tutorial Source Code
+
+
+- Tutorial Video  https://www.youtube.com/watch?v=3GEAINRCbJ4&list=PLCpux10P7KDKPb4eI5b_qSnQaY1ePGKGK&index=4&t=1437s
+
+#+begin_src lisp
+(defun toss-coin ()
+  "Generate a random heads or tails"
+
+  (let ((number (random 2 (make-random-state t))))
+    (if (= number 0)
+	"heads"
+	"tails")))
+
+(defun prompt ()
+  "Get user input and loop if it is not 'heads' or 'tails'"
+
+  (format t "Please enter heads or tails: ")
+  (force-output)
+
+  (let ((guess (string-downcase (read-line))))
+    (if (or (string= guess "heads")
+	     (string= guess "tails")
+	  guess
+	  (prompt))))
+
+  (defun game ()
+    (if (string= (promt)
+		  (toss-coin))
+        (format nil "You Win!~%")
+	 (format nil "You Loose!~%")))
+
+#+end_src
