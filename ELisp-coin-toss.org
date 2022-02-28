@@ -15,7 +15,7 @@ First attempt at any sort of programming. Rather that simply following a step by
        (message "tails"))))
 
 (defun prompt ()
-  "promt to accept user guess"
+  "prompts to accept user guess"
   (interactive)
   (message "Please enter heads or tails. ")
   (read-string "Your guess: "))
