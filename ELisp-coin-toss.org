@@ -5,7 +5,7 @@
 * Project notes 
 First attempt at any sort of programming. Rather that simply following a step by step tutorial. I found one for Common Lisp and translated it into Emacs-Lisp.
 
-* Completed Source Code 
+* Completed E-Lisp Source Code 
 #+begin_src emacs-lisp
 (defun toss-coin ()
 "psuedo ranomly selects heads or tails"
@@ -45,6 +45,7 @@ First attempt at any sort of programming. Rather that simply following a step by
 (toss-coin)
 
 #+end_src
+
 
 * Tutorial Source Code
 
