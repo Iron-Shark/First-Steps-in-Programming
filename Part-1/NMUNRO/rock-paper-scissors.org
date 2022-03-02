@@ -1,0 +1,128 @@
+#+Date: 2022Mar28
+#+Author: Que 
+#+Title: Part 2 Rock Paper Scissors
+
+* Completed E-Lisp Code
+#+begin_src emacs-lisp
+
+(defun cpu-choice ()
+"generates a number and check if it is 0, if it is return to cpu-choice-3 as rock"
+  (let ((number (cl-random 3)))
+    (if (= number 0)
+	(message "rock")  ;if rock 
+       (cpu-choice-2))))
+
+(defun cpu-choice-2 ()
+"checks if the number is 1, if it is returns paper, otherwise returns scissors"
+  (if (= number 1)
+      (message "paper")  ;if paper 
+      (message "scissors")))  ; if scissors
+
+(defun prompt ()
+"prompt for user input"
+  (read-string "Please choose one: rock, paper, scissors. Your choice: "))
+
+(defun input ()
+"downcases player input for equality matching"
+  (let ((player-input (downcase (prompt))))))
+
+(defun game ()
+"Starts gmae and checks to see if both inputs match, creating a tie"
+  (if (equal (cpu-choice)
+	      (input))
+      (message "Its a tie.")
+      (cpu-sort-1)))
+
+(defun cpu-sort-1 ()
+"checks if cpu guess was rock"
+  (if (equal (cpu-choice) "rock")
+	      (rock-win-check)
+    (cpu-sort-2)))
+
+(defun rock-win-check ()
+  "compares rock against player input"
+  (if (equal (prompt) "scissors")
+      (message "You Win")
+    (message "You Lose")))
+
+(defun cpu-sort-2 ()
+  "checks if cpu guess was paper"
+  (if (equal (cpu-choice) "paper")
+      (paper-win-check)
+    (cpu-sort-3)))
+
+(defun paper-win-check ()
+  "compares paper against player input"
+  (if (equal (cpu-choice) "rock")
+      (message "You Win")
+    (message "You Lose")))
+
+(defun cpu-sort-3 ()
+  "checks if cpu guess was scissors"
+  (if (equal (cpu-choice) "scissors")
+      (scissors-win-check)
+    (bad-input)))
+
+(defun scissors-win-check ()
+  "compares scissors against player inptu"
+  (if (equal (cpu-choice) "paper")
+      (message "You Win")
+    (message "You Lose")))
+
+(defun bad-input ()
+  "catches invalid player input"
+  (message "Bad Input"))
+
+(game)  ;; Evaluate this to start game.  
+
+#+end_src
+
+** Notes
+Kind of went of the rails on this one. Stopped watching the tutorial part way through, and tried to finish the game with what I already know. May try to do this one again following the tutorial more closely.
+
+* Tutorial Source Code
+#+begin_src lisp
+(defpackage rock-paper-scissors
+  (:use :cl))
+(in-package :rock-paper-scissors)
+
+(defun get-player-choice (options)
+  (format t "Please enter either -> ~{~A~^, ~}: " options)
+  (force-output)
+
+  (let ((choice (string-downcase (read-line))))
+    (if (member choice options :test #'equal)
+	choice
+	(get-player-choice options))))
+
+(defun game ()
+  (let* ((options '("rock" "paper" "scissors"))
+	 (cpu-choice (nth (random (length options) (make-random-state t)) options))
+	 (player-choice (get-player-choice options)))
+
+    (cond
+      ;When a draw has occured
+      ((equal cpu-choice player-choice)
+       (format t "You entered: ~A, CPU entered: ~A. It's a Draw!~%" player-choice cpu-choice))
+
+      ;if user enters rock and cpu enters scissors
+      ((and (equal player-choice "rock")
+	     (equal cpu-choice "scissors"))
+       (format t "You entered: ~A, CPU entered: ~A. You win!~%" player-choice cpu-choice))
+
+      ;if the user enters paper and the cpu enters rock
+      ((and (equal player-choice "paper")
+	     (equal cpu-choice "rock"))
+       format t "You entered: ~A, CPU entered: ~A. You win!~%" player-choice cpu-choice))
+
+    ;if the user enters scissors and the cpu enters paper
+   ((and (equal player-choice "scissors")
+	  (equal cpu-choice "paper"))
+       (format t "You entered: ~A, CPU entered: ~A. You win!~%" player-choice cpu-choice))
+
+   ;othewise its a loss
+   (t (format t "You entered: ~A, CPU entered: ~A. You loose!~%" player-choice cpu-choice))))
+#+end_src
+   
+** Note
+The example code my have typos as I copied it manually from the youtube video.
