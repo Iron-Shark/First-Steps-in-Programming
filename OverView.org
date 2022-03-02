@@ -1,0 +1,23 @@
+* Overview of the goals and progression for learning my first Programming Language 
+
+** Part 1 
+
+*** NMUNRO Common Lisp Tutorial Series
+- Add URL Here 
+
+*** Exorcism Emacs Lisp and Common Lisp Tutorial
+
+**** Common Lisp 
+- Add URL Here 
+
+**** E-macs Lisp 
+- Add URL Here 
+
+** Part 2
+- Learn to code to solving problems (HB)
+
+** Part 3 
+- Algorithmic thinking 
+
+** Part 4
+- The recursive book of recursion 
