@@ -1,10 +1,13 @@
-* Overview of the goals and progression for learning my first Programming Language 
+* Overview of the goals and progression for learning the fundamentals of programming. 
 
 ** Part 1 
 
 *** NMUNRO Common Lisp Tutorial Series
-- Add URL Here 
+- https://www.youtube.com/playlist?list=PLCpux10P7KDKPb4eI5b_qSnQaY1ePGKGK 
 
+**** Project notes 
+First attempt at any sort of programming. Rather that simply following a step by step tutorial. I found one for Common Lisp and translated it into Emacs-Lisp.
+  
 *** Exorcism Emacs Lisp and Common Lisp Tutorial
 
 **** Common Lisp 

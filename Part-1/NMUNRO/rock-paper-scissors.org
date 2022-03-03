@@ -1,21 +1,24 @@
 #+Date: 2022Mar28
-#+Author: Que 
+#+Author: Que
 #+Title: Part 2 Rock Paper Scissors
 
 * Completed E-Lisp Code
+
+** V1
+
 #+begin_src emacs-lisp
 
 (defun cpu-choice ()
 "generates a number and check if it is 0, if it is return to cpu-choice-3 as rock"
   (let ((number (cl-random 3)))
     (if (= number 0)
-	(message "rock")  ;if rock 
+        (message "rock")  ;if rock
        (cpu-choice-2))))
 
 (defun cpu-choice-2 ()
 "checks if the number is 1, if it is returns paper, otherwise returns scissors"
   (if (= number 1)
-      (message "paper")  ;if paper 
+      (message "paper")  ;if paper
       (message "scissors")))  ; if scissors
 
 (defun prompt ()
@@ -29,14 +32,14 @@
 (defun game ()
 "Starts gmae and checks to see if both inputs match, creating a tie"
   (if (equal (cpu-choice)
-	      (input))
+              (input))
       (message "Its a tie.")
       (cpu-sort-1)))
 
 (defun cpu-sort-1 ()
 "checks if cpu guess was rock"
   (if (equal (cpu-choice) "rock")
-	      (rock-win-check)
+              (rock-win-check)
     (cpu-sort-2)))
 
 (defun rock-win-check ()
@@ -73,12 +76,60 @@
   "catches invalid player input"
   (message "Bad Input"))
 
-(game)  ;; Evaluate this to start game.  
+(game)  ;; Evaluate this to start game.
 
 #+end_src
 
-** Notes
+
+*** Notes
 Kind of went of the rails on this one. Stopped watching the tutorial part way through, and tried to finish the game with what I already know. May try to do this one again following the tutorial more closely.
+
+
+** V2
+
+#+begin_src emacs-lisp
+(defun prompt ()
+  "Creates a prompt to accept user input"
+  (read-string "Please select one: rock, paper, scissors: "))
+
+(defun get-player-choice (options)
+  "compares user input to options list"
+ (let ((choice (downcase (prompt))))
+   (if (member choice options)
+       choice
+     (get-player-choice options))))
+
+(defun game ()
+  "game logic"
+  (let* ((options '("rock" "paper" "scissors"))
+         (cpu-choice (nth (cl-random (length options)) options))
+           (player-choice (get-player-choice options)))
+
+    (cond
+     ; If the user and cpu pick the same choice
+     ((equal cpu-choice player-choice)
+      (message "You choose %s, CPU choose %s. It's a Draw!" player-choice cpu-choice))
+
+     ; If the user enters rock and the cpu enters scissors
+     ((and (equal player-choice "rock")
+             (equal cpu-choice "scissors"))
+      (message "You choose %s, CPU choose %s. You Win!" player-choice cpu-choice))
+
+     ; If the user enters paper and the cpu enters rock
+     ((and (equal player-choice "paper")
+             (equal cpu-choice "rock"))
+      (message "You choose %s, CPU choose %s. You Win!" player-choice cpu-choice))
+
+     ; If the user enters scissors and the cpu enters paper
+     ((and (equal player-choice "scissors")
+             (equal cpu-choice "paper"))
+      (message "You choose %s, CPU choose %s.You Win!" player-choice cpu-choice))
+
+     (t (message "You choose %s, CPU choose %s. You Lose" player-choice cpu-choice)))))
+
+(game)
+#+end_src
+
 
 * Tutorial Source Code
 #+begin_src lisp
@@ -92,13 +143,13 @@ Kind of went of the rails on this one. Stopped watching the tutorial part way th
 
   (let ((choice (string-downcase (read-line))))
     (if (member choice options :test #'equal)
-	choice
-	(get-player-choice options))))
+        choice
+        (get-player-choice options))))
 
 (defun game ()
   (let* ((options '("rock" "paper" "scissors"))
-	 (cpu-choice (nth (random (length options) (make-random-state t)) options))
-	 (player-choice (get-player-choice options)))
+         (cpu-choice (nth (random (length options) (make-random-state t)) options))
+         (player-choice (get-player-choice options)))
 
     (cond
       ;When a draw has occured
@@ -107,22 +158,22 @@ Kind of went of the rails on this one. Stopped watching the tutorial part way th
 
       ;if user enters rock and cpu enters scissors
       ((and (equal player-choice "rock")
-	     (equal cpu-choice "scissors"))
+             (equal cpu-choice "scissors"))
        (format t "You entered: ~A, CPU entered: ~A. You win!~%" player-choice cpu-choice))
 
       ;if the user enters paper and the cpu enters rock
       ((and (equal player-choice "paper")
-	     (equal cpu-choice "rock"))
+             (equal cpu-choice "rock"))
        format t "You entered: ~A, CPU entered: ~A. You win!~%" player-choice cpu-choice))
 
     ;if the user enters scissors and the cpu enters paper
    ((and (equal player-choice "scissors")
-	  (equal cpu-choice "paper"))
+          (equal cpu-choice "paper"))
        (format t "You entered: ~A, CPU entered: ~A. You win!~%" player-choice cpu-choice))
 
    ;othewise its a loss
    (t (format t "You entered: ~A, CPU entered: ~A. You loose!~%" player-choice cpu-choice))))
 #+end_src
-   
+
 ** Note
 The example code my have typos as I copied it manually from the youtube video.
